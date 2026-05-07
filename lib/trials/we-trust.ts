@@ -124,9 +124,9 @@ export const WE_TRUST: TrialDef = {
       evaluate: (i) => ynStatus(i.in_hospital_stroke),
     },
     {
-      id: "contrast_allergy_lifethreat",
-      label: "Life-threatening contrast allergy",
-      evaluate: (i) => ynStatus(i.contrast_allergy_lifethreatening),
+      id: "contrast_allergy",
+      label: "Contrast allergy (severe / anaphylactic)",
+      evaluate: (i) => ynStatus(i.contrast_allergy),
     },
     {
       id: "terminal_lt1y",
@@ -135,18 +135,8 @@ export const WE_TRUST: TrialDef = {
     },
     {
       id: "vasculitis_known",
-      label: "Cerebral vasculitis (known)",
+      label: "Known cerebral vasculitis",
       evaluate: (i) => ynStatus(i.cerebral_vasculitis_known),
-    },
-    {
-      id: "unstable",
-      label: "Unstable / requires emergent life support",
-      evaluate: (i) => ynStatus(i.unstable_emergent_lifesupport),
-    },
-    {
-      id: "no_followup",
-      label: "Cannot complete 90-day follow-up",
-      evaluate: (i) => ynStatus(i.cannot_followup_90d),
     },
     {
       id: "bp_high_with_lytics",
@@ -158,17 +148,6 @@ export const WE_TRUST: TrialDef = {
         const dbpHigh = i.dbp !== null && i.dbp > 110;
         return sbpHigh || dbpHigh ? "pass" : "fail";
       },
-    },
-    {
-      id: "confounding_trial",
-      label: "Enrolled in confounding drug/device trial",
-      evaluate: (i) => ynStatus(i.confounding_trial_enrolled),
-    },
-    {
-      id: "preexisting_neuro_psych",
-      label: "Pre-existing neuro/psych disease confounding evaluation (investigator judgement)",
-      warning: true,
-      evaluate: (i) => ynStatus(i.preexisting_neuro_psych_confounding),
     },
   ],
 };

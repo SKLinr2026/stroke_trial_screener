@@ -172,9 +172,9 @@ export const STEP_A: TrialDef = {
       evaluate: (i) => ynStatus(i.cerebral_vasculitis_imaging),
     },
     {
-      id: "anaphylactic_contrast",
-      label: "Anaphylactic contrast allergy precluding EVT",
-      evaluate: (i) => ynStatus(i.contrast_allergy_anaphylactic),
+      id: "contrast_allergy",
+      label: "Contrast allergy (severe / anaphylactic) precluding EVT",
+      evaluate: (i) => ynStatus(i.contrast_allergy),
     },
     {
       id: "tumor",
@@ -218,13 +218,6 @@ export const STEP_A: TrialDef = {
         if (i.vascular_access_feasible === "unknown") return "unknown";
         return i.vascular_access_feasible === "no" ? "pass" : "fail";
       },
-    },
-    {
-      id: "preexisting_neuro_psych",
-      label:
-        "Pre-existing neuro/psych disease confounding evaluation (investigator judgement)",
-      warning: true,
-      evaluate: (i) => ynStatus(i.preexisting_neuro_psych_confounding),
     },
   ],
 };

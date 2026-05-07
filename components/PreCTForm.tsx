@@ -74,6 +74,31 @@ export function PreCTForm({ value, onChange }: Props) {
             )}
           </div>
         )}
+
+        <div className="pt-2 border-t border-brand/20">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-sm font-semibold text-gray-800">
+              3. Angio suite + EVT team immediately available?
+              <span className="block text-xs font-normal text-gray-500 mt-0.5">
+                Weekdays 8 AM–5 PM: team is on standby — call not needed.
+                Off-hours: call NIR attending to confirm.
+              </span>
+            </span>
+            <YNU
+              value={value.angio_team_immediately_available}
+              onChange={setYNU("angio_team_immediately_available")}
+              name="Angio team immediately available"
+            />
+          </div>
+          {value.angio_team_immediately_available === "no" && (
+            <div className="mt-2 flex items-center gap-2 bg-red-100 border border-red-400 rounded px-3 py-2">
+              <span className="text-red-700 font-bold text-lg leading-none">✗</span>
+              <span className="text-sm font-bold text-red-800">
+                WE-TRUST NOT ELIGIBLE — angio suite / EVT team not immediately available.
+              </span>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="grid gap-3 md:grid-cols-3 mb-4">
@@ -260,18 +285,12 @@ export function PreCTForm({ value, onChange }: Props) {
             ["extreme_vomiting_or_agitation", "Extreme vomiting / agitation"],
             ["pregnancy", "Pregnancy"],
             ["in_hospital_stroke", "In-hospital stroke"],
-            ["contrast_allergy_lifethreatening", "Life-threatening contrast allergy"],
-            ["contrast_allergy_anaphylactic", "Anaphylactic contrast allergy"],
+            ["contrast_allergy", "Contrast allergy"],
             ["terminal_illness_lt1y", "Terminal illness < 1 year"],
             ["terminal_illness_lt6mo", "Terminal illness < 6 months"],
-            ["cerebral_vasculitis_known", "Cerebral vasculitis (known)"],
+            ["cerebral_vasculitis_known", "Known Cerebral vasculitis"],
             ["coagulopathy_known", "Known coagulopathy / hemorrhagic diathesis"],
-            ["unstable_emergent_lifesupport", "Unstable / emergent life support"],
-            ["cannot_followup_90d", "Cannot follow up at 90 days"],
-            ["confounding_trial_enrolled", "In confounding drug/device trial"],
             ["septic_embolus_or_endocarditis", "Suspected septic embolus / endocarditis"],
-            ["preexisting_neuro_psych_confounding", "Pre-existing neuro/psych disease confounding eval (soft)"],
-            ["angio_team_immediately_available", "Angio suite + EVT team immediately available"],
           ] as [keyof ScreeningInput, string][]).map(([key, label]) => (
             <div
               key={key}

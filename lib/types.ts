@@ -88,17 +88,12 @@ export interface ScreeningInput {
   extreme_vomiting_or_agitation: YesNoUnknown;
   pregnancy: YesNoUnknown;
   in_hospital_stroke: YesNoUnknown;
-  contrast_allergy_lifethreatening: YesNoUnknown;
-  contrast_allergy_anaphylactic: YesNoUnknown;
+  contrast_allergy: YesNoUnknown; // severe / anaphylactic
   terminal_illness_lt1y: YesNoUnknown;
   terminal_illness_lt6mo: YesNoUnknown;
   cerebral_vasculitis_known: YesNoUnknown;
-  unstable_emergent_lifesupport: YesNoUnknown;
-  cannot_followup_90d: YesNoUnknown;
-  confounding_trial_enrolled: YesNoUnknown;
   septic_embolus_or_endocarditis: YesNoUnknown;
   coagulopathy_known: YesNoUnknown;
-  preexisting_neuro_psych_confounding: YesNoUnknown; // soft warning
 
   // Workflow
   angio_team_immediately_available: YesNoUnknown;

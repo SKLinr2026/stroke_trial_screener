@@ -37,17 +37,12 @@ export function initialInput(): ScreeningInput {
     extreme_vomiting_or_agitation: "unknown",
     pregnancy: "unknown",
     in_hospital_stroke: "unknown",
-    contrast_allergy_lifethreatening: "unknown",
-    contrast_allergy_anaphylactic: "unknown",
+    contrast_allergy: "unknown",
     terminal_illness_lt1y: "unknown",
     terminal_illness_lt6mo: "unknown",
     cerebral_vasculitis_known: "unknown",
-    unstable_emergent_lifesupport: "unknown",
-    cannot_followup_90d: "unknown",
-    confounding_trial_enrolled: "unknown",
     septic_embolus_or_endocarditis: "unknown",
     coagulopathy_known: "unknown",
-    preexisting_neuro_psych_confounding: "unknown",
 
     angio_team_immediately_available: "unknown",
 
