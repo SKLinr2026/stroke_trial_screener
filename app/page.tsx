@@ -117,7 +117,7 @@ function Screener({ caseCode, role }: { caseCode: string; role: Role }) {
 
       <div className="grid gap-4 lg:grid-cols-[1fr_22rem]">
         <div>
-          <PreCTForm value={input} onChange={setInput} />
+          <PreCTForm value={input} onChange={setInput} role={role} />
           <NIHSSForm
             value={input.nihss}
             onChange={(nihss) => setInput({ ...input, nihss })}

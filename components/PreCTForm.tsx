@@ -4,12 +4,15 @@ import type { ScreeningInput, YesNoUnknown } from "@/lib/types";
 import { Field, inputClass } from "./ui/Field";
 import { YNU } from "./ui/YNU";
 
+export type Role = "resident" | "attending" | "neuro";
+
 interface Props {
   value: ScreeningInput;
   onChange: (next: ScreeningInput) => void;
+  role?: Role;
 }
 
-export function PreCTForm({ value, onChange }: Props) {
+export function PreCTForm({ value, onChange, role = "resident" }: Props) {
   const set = <K extends keyof ScreeningInput>(k: K, v: ScreeningInput[K]) =>
     onChange({ ...value, [k]: v });
 
@@ -197,45 +200,8 @@ export function PreCTForm({ value, onChange }: Props) {
       </div>
 
       <div className="border-t border-gray-100 pt-3 mb-3">
-        <h3 className="text-sm font-semibold text-gray-700 mb-2">Bedside labs / vitals</h3>
-        <div className="grid gap-3 md:grid-cols-4">
-          <Field label="Glucose (mg/dL)">
-            <input
-              type="number"
-              value={value.glucose_mgdl ?? ""}
-              onChange={(e) =>
-                set(
-                  "glucose_mgdl",
-                  e.target.value === "" ? null : Number(e.target.value)
-                )
-              }
-              className={inputClass()}
-            />
-          </Field>
-          <Field label="INR">
-            <input
-              type="number"
-              step="0.1"
-              value={value.inr ?? ""}
-              onChange={(e) =>
-                set("inr", e.target.value === "" ? null : Number(e.target.value))
-              }
-              className={inputClass()}
-            />
-          </Field>
-          <Field label="Platelets (/μL)">
-            <input
-              type="number"
-              value={value.platelets_per_uL ?? ""}
-              onChange={(e) =>
-                set(
-                  "platelets_per_uL",
-                  e.target.value === "" ? null : Number(e.target.value)
-                )
-              }
-              className={inputClass()}
-            />
-          </Field>
+        <h3 className="text-sm font-semibold text-gray-700 mb-2">Bedside vitals</h3>
+        <div className="grid gap-3 md:grid-cols-2">
           <Field label="SBP / DBP">
             <div className="flex gap-2">
               <input
@@ -258,12 +224,17 @@ export function PreCTForm({ value, onChange }: Props) {
               />
             </div>
           </Field>
-          <Field
-            label="Thrombolysis planned?"
-            className="md:col-span-2"
-            hint="If yes, BP > 185/110 becomes an exclusion."
-          >
-            <label className="inline-flex items-center gap-2 text-sm">
+        </div>
+      </div>
+
+      {/* IV thrombolysis decision — attending only */}
+      {role === "attending" && (
+        <div className="border-t border-gray-100 pt-3 mb-3">
+          <h3 className="text-sm font-semibold text-gray-700 mb-2">
+            Stroke attending decision
+          </h3>
+          <div className="flex items-start gap-3 p-3 bg-amber-50 border border-amber-300 rounded">
+            <label className="inline-flex items-center gap-2 text-sm font-semibold text-amber-900">
               <input
                 type="checkbox"
                 checked={value.thrombolysis_planned}
@@ -272,9 +243,74 @@ export function PreCTForm({ value, onChange }: Props) {
               />
               IV thrombolysis planned
             </label>
-          </Field>
+            <span className="text-xs text-amber-800 flex-1">
+              When checked: resident is prompted to draw glucose, platelets, INR.
+              BP &gt; 185/110 also becomes an exclusion.
+            </span>
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* Labs (Glucose / Platelets / INR) — visible to everyone *only* when attending has triggered thrombolysis */}
+      {value.thrombolysis_planned && (
+        <div className="border-t border-gray-100 pt-3 mb-3">
+          {role === "resident" && (
+            <div className="mb-3 flex items-start gap-2 bg-red-100 border-2 border-red-500 rounded-md px-3 py-2">
+              <span className="text-red-700 font-bold text-xl leading-none">⚠</span>
+              <div className="flex-1">
+                <div className="text-sm font-bold text-red-800">
+                  Stroke attending has requested IV thrombolysis.
+                </div>
+                <div className="text-xs text-red-700 mt-0.5">
+                  Please draw and enter <strong>glucose</strong>, <strong>platelets</strong>, and <strong>INR</strong> below.
+                </div>
+              </div>
+            </div>
+          )}
+          <h3 className="text-sm font-semibold text-gray-700 mb-2">
+            Labs (for thrombolysis safety)
+          </h3>
+          <div className="grid gap-3 md:grid-cols-3">
+            <Field label="Glucose (mg/dL)" required>
+              <input
+                type="number"
+                value={value.glucose_mgdl ?? ""}
+                onChange={(e) =>
+                  set(
+                    "glucose_mgdl",
+                    e.target.value === "" ? null : Number(e.target.value)
+                  )
+                }
+                className={inputClass()}
+              />
+            </Field>
+            <Field label="Platelets (/μL)" required>
+              <input
+                type="number"
+                value={value.platelets_per_uL ?? ""}
+                onChange={(e) =>
+                  set(
+                    "platelets_per_uL",
+                    e.target.value === "" ? null : Number(e.target.value)
+                  )
+                }
+                className={inputClass()}
+              />
+            </Field>
+            <Field label="INR" required>
+              <input
+                type="number"
+                step="0.1"
+                value={value.inr ?? ""}
+                onChange={(e) =>
+                  set("inr", e.target.value === "" ? null : Number(e.target.value))
+                }
+                className={inputClass()}
+              />
+            </Field>
+          </div>
+        </div>
+      )}
 
       <div className="border-t border-gray-100 pt-3">
         <h3 className="text-sm font-semibold text-gray-700 mb-2">History / Status</h3>
